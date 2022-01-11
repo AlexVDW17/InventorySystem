@@ -57,8 +57,20 @@ class Item extends React.Component {
   }
 
   //crud funtions for Item
-  createItem(SKU, location) {
+  createItem(serialNum, SKU, saleStatus, location) {
+    
+  }
+
+  getItem(serialNum, SKU) {
   
   }
+
+  updateItem(serialNum, SKU, saleStatus, location) {
   
+  }
+
+  deleteItem(serialNum, SKU) {
+    
+  }
+
 }
