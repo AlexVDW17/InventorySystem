@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class InventoryappConfig(AppConfig):
+class InventoryapiConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'inventoryApp'
+    name = 'inventoryApi'
