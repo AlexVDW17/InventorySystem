@@ -24,23 +24,10 @@ class Child extends React.Component {
     this.state = {};
   }
   render(){
-    return "hello world";
+
+    return <div>{this.props.data}</div>;
   }
-  // render () {
-  //   const { data } = this.props;
-  //   return (
-  //     <div>
-  //       <h1>Products</h1>
-  //       <ul>
-  //         {data.map(product => (
-  //           <li key={product.id}>
-  //             {product.name}
-  //           </li>
-  //         ))}
-  //       </ul>
-  //     </div>
-  //   );
-  //}
+  
 }
 
 
@@ -51,15 +38,16 @@ class ParentThatFetches extends React.Component {
   }
 
   componentDidMount () {
-    var requestOptions = {
-      method: 'GET',
-      redirect: 'follow'
-    };
+    // var requestOptions = {
+    //   method: 'GET',
+    //   redirect: 'follow'
+    // };
     
-    fetch("http://127.0.0.1:8000/products/", requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
+    // fetch("http://127.0.0.1:8000/products/", requestOptions)
+    //   .then(response => response.text())
+    //   .then(result => this.setState({data: result}))
+    //   .catch(error => console.log('error', error));
+    GetAllProducts().then(result => this.setState({data: result}));
   }
 
   render () {
@@ -75,4 +63,73 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
+async function GetAllProducts(){
+  var requestOptions = {
+    method: 'GET',
+    redirect: 'follow'
+  };
+  var products = "hi";
+  await fetch("http://127.0.0.1:8000/products/", requestOptions)
+    .then(response => response.text())
+    .then(result => {
+      console.log(result);
+      products = result;
+    })
+    .catch(error => console.log('error', error));
+    return products;
+}
 
+function CreateProduct(name, sku, description, price, stock) {
+  var formdata = new FormData();
+  formdata.append("name", name);
+  formdata.append("sku", sku);
+  formdata.append("description", description);
+  formdata.append("price", price);
+  formdata.append("stock", stock);
+  
+  var requestOptions = {
+    method: 'POST',
+    body: formdata,
+    redirect: 'follow'
+  };
+  
+  fetch("http://127.0.0.1:8000/products/", requestOptions)
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
+}
+
+function EditProduct(id, name, sku, description, price, stock){
+  var formdata = new FormData();
+  formdata.append("name", name);
+  formdata.append("sku", sku);
+  formdata.append("description", description);
+  formdata.append("price", price);
+  formdata.append("stock", stock);
+  
+  var requestOptions = {
+    method: 'PUT',
+    body: formdata,
+    redirect: 'follow'
+  };
+  
+  fetch("http://127.0.0.1:8000/products/" + id + "/", requestOptions)
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
+}
+
+function DeleteProduct(id){
+  var formdata = new FormData();
+
+  var requestOptions = {
+    method: 'DELETE',
+    body: formdata,
+    redirect: 'follow'
+  };
+
+  fetch("http://127.0.0.1:8000/products/" + id + "/", requestOptions)
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
+}
