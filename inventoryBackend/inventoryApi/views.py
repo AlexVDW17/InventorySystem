@@ -10,7 +10,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
 
 class ItemViewSet(viewsets.ModelViewSet):
-    queryset = Item.objects.all().order_by('name')
+    queryset = Item.objects.all().order_by('product')
     serializer_class = ItemSerializer
 
 class WarehouseViewSet(viewsets.ModelViewSet):

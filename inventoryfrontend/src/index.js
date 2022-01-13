@@ -21,11 +21,34 @@ reportWebVitals();
 class Child extends React.Component {
   constructor (props) {
     super(props);
-    this.state = {};
+    this.state = {data: props.data,};
   }
-  render(){
 
-    return <div>{this.props.data}</div>;
+  renderRow(product) {
+    return (
+      <tr>
+        <td>{ product.id }</td>
+        <td>{ product.name }</td>
+        <td>{ product.description }</td>
+        <td>{ product.price }</td>
+        <td>{ product.stock }</td>
+      </tr>
+    );
+  };
+
+
+
+  render(){
+    if(this.props.data!==undefined) {
+      const products = JSON.parse(this.props.data);
+      
+      return (
+        <table style={{"borderWidth":"1px", 'borderColor':"#aaaaaa", 'borderStyle':'solid'}}>
+          {products.map(this.renderRow)}
+        </table>
+      );
+    }
+    return <div>"waiting"</div>
   }
   
 }
@@ -38,16 +61,9 @@ class ParentThatFetches extends React.Component {
   }
 
   componentDidMount () {
-    // var requestOptions = {
-    //   method: 'GET',
-    //   redirect: 'follow'
-    // };
     
-    // fetch("http://127.0.0.1:8000/products/", requestOptions)
-    //   .then(response => response.text())
-    //   .then(result => this.setState({data: result}))
-    //   .catch(error => console.log('error', error));
-    GetAllProducts().then(result => this.setState({data: result}));
+    GetAllProducts()
+    .then(result => this.setState({data: result}));
   }
 
   render () {
@@ -68,7 +84,7 @@ async function GetAllProducts(){
     method: 'GET',
     redirect: 'follow'
   };
-  var products = "hi";
+  var products = "hi there shopify devs!";
   await fetch("http://127.0.0.1:8000/products/", requestOptions)
     .then(response => response.text())
     .then(result => {

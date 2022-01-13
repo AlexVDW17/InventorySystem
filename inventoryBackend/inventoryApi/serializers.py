@@ -6,13 +6,13 @@ class ProductSerializer(serializers.HyperlinkedModelSerializer):
     items = serializers.StringRelatedField(many=True, required=False)
     class Meta:
         model = Product
-        fields = ( 'id','name', 'sku', 'description', 'price', 'stock', 'items')
+        fields = ( 'id','name', 'sku', 'description', 'price', 'items')
 
 
 class ItemSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Item
-        fields = ('id', 'name', 'sku', 'description', 'price', 'warehouse', 'serial_number')
+        fields = ('id', 'name', 'product',  'price', 'warehouse', 'serial_number')
         
 
 class WarehouseSerializer(serializers.HyperlinkedModelSerializer):
